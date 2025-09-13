@@ -1,45 +1,89 @@
-### 📦 Dependencies
+# 📌 PROJETO P1 - Desenvolvimento de API com Node.js e Express
 
-- [typescript][typescript-npm] - Superset for application scale JavaScript development
-- [tsx][tsx-npm] - TypeScript Execute (tsx): Enable Node.js to run TypeScript
-- [tsup][tsup-npm] - Bundle your TypeScript library with no config, powered by esbuild
-- [@types/node][@types/node-npm] - type definitions for node
+## 📖 Descrição
 
-### 📄 Files
+Este projeto tem como objetivo o **desenvolvimento de uma API** utilizando **Node.js** com **Express**, baseada no diagrama fornecido em aula.  
+A API será organizada em camadas e boas práticas, incluindo o uso de **migrations, seeds, variáveis de ambiente, services e controllers**.  
+O projeto será versionado e submetido ao **GitHub**.
 
-- `.gitignore` - Ignore folders like node_modules
-- `launch.json` - Debugger configuratin
-- `tsconfig.json` - Typescript configure Options
+---
 
-### ⚡ Scripts
+## 🛠️ Tecnologias Utilizadas
 
-- `npm run transpile`: Compiles TypeScript files to JavaScript in the dist directory.
-- `npm run start-dev`: Runs the server in development mode with environment variables loaded from the .env file.
-- `npm run start-watch`: Runs the server in development mode with support for automatic reload on file changes.
-- `npm run start-transpile`: Compiles the project and runs the compiled version from the dist directory.
+- [Node.js](https://nodejs.org/)
 
-# 👨‍💻 How To Use
+---
 
+## 📂 Estrutura do Projeto
 
-To clone and run this application, you'll need [Git](https://git-scm.com), [Node.js v20+](https://nodejs.org/en/) + [NPM v10+](https://nodejs.org/en/) installed on your computer. From your command line:
+```
+
+```
+
+---
+
+## ⚙️ Funcionalidades
+
+- **Configuração da API** com Express
+- **Models** representando as entidades do diagrama
+- **Variáveis de ambiente** para configuração de porta, credenciais de banco
+- **Migrations** para versionamento do banco
+- **CRUD completo** para cada entidade
+- **Controllers** para separar regras de negócio das rotas
+- **Seeds** para popular o banco com dados iniciais
+- **Services** incluindo paginação de resultados
+
+---
+
+## 🚀 Como Executar o Projeto
+
+### 1. Clonar o repositório
 
 ```bash
-# Clone this repository
-$ git clone https://github.com/Eliel-DM/NodeBoilerplate.git
-
-# Go into the repository
-$ cd NodeBoilerplate
-
-# Install dependencies
-$ npm install
+git clone https://github.com/Eliel-DM/projeto_node_p1.git
+cd projeto-p1
 ```
-[typescript]: https://www.typescriptlang.org/
-[typescript-5-4]: https://www.typescriptlang.org/
-[ts-badge]: https://img.shields.io/badge/TypeScript-5.4-blue.svg
-[nodejs-badge]: https://img.shields.io/badge/Node.js->=%2020.00-blue.svg
-[nodejs]: https://nodejs.org/
-[dribble-icon]: https://dribbble.com/Schakalwal
-[typescript-npm]: https://www.npmjs.com/package/typescript
-[tsx-npm]: https://www.npmjs.com/package/tsx
-[tsup-npm]: https://www.npmjs.com/package/tsup
-[@types/node-npm]: https://www.npmjs.com/package/@types/node
+
+### 2. Instalar as dependências
+
+```bash
+npm install
+```
+
+### 3. Configurar variáveis de ambiente
+
+Crie um arquivo `.env` na raiz do projeto com as seguintes variáveis:
+
+```env
+PORT=aqui_sua_porta
+DB_HOST=localhost
+DB_USER=usuario
+DB_PASS=senha
+DB_NAME=nome_do_banco
+DB_DIALECT=postgres
+```
+
+### 4. Executar migrations e seeds
+
+```bash
+npx sequelize db:migrate
+npx sequelize db:seed:all
+```
+
+### 5. Rodar a API
+
+```bash
+npm run start-dev
+npm run start-watch (Roda em modo Watch)
+```
+
+---
+
+## 📡 Endpoints da API
+
+---
+
+## ✅ Entrega
+
+- O código deve ser submetido no **GitHub** pessoal do aluno.
+- Valor: **8,0 pontos**.

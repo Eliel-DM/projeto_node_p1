@@ -11,13 +11,27 @@ O projeto será versionado e submetido ao **GitHub**.
 ## 🛠️ Tecnologias Utilizadas
 
 - [Node.js](https://nodejs.org/)
+- [Express.js](https://expressjs.com/)
 
 ---
 
 ## 📂 Estrutura do Projeto
 
 ```
-
+├── .vscode/
+├── node_modules/
+├── src/
+│   ├── controllers/
+│   │   └── api-controller.ts
+│   ├── routes/
+│   │   └── api-notes.ts
+│   └── server.ts
+├── .env
+├── .gitignore
+├── package-lock.json
+├── package.json
+├── readme.md
+└── tsconfig.json
 ```
 
 ---

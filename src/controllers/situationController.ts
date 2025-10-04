@@ -5,8 +5,42 @@ import { Situation } from "../entity/situations";
 export const getSituation = async (req: Request, res: Response) => {
   try {
     const situationRespository = AppDataSource.getRepository(Situation);
-    const situations = await situationRespository.find();
-    res.status(200).json(situations);
+
+    //Paginação
+
+    const page = Number(req.query.page) || 1;
+    const limit = 1;
+    //Contar o total de registros no banco de dados.
+    const totalSituations = await situationRespository.count();
+    //verificar se existem registros
+    if (totalSituations === 0) {
+      res.status(400).json({
+        message: "Nenhua situação encontrada!",
+      });
+      return;
+    }
+    //Calcular a última página
+    const lastPage = Math.ceil(totalSituations / limit);
+    if (page > lastPage) {
+      res.status(400).json({
+        message: `Página inválida. O total de páginas é: ${lastPage}`,
+      });
+      return;
+    }
+
+    const offset = (page - 1) * limit;
+
+    const situations = await situationRespository.find({
+      take: limit,
+      skip: offset,
+      order: { id: "DESC" },
+    });
+    res.status(200).json({
+      currentPage: page,
+      lastPage,
+      totalSituations,
+      situations,
+    });
     return;
   } catch (error) {
     res.status(500).json({

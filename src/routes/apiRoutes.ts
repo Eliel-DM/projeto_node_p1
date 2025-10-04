@@ -6,6 +6,7 @@ const router = Router();
 router.get("/", authController.getAuth);
 
 router.get("/situations", situationController.getSituation);
+router.get("/situations/:id", situationController.getSituationById);
 router.post("/situations", situationController.postSituation);
 
 export default router;

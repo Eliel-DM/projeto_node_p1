@@ -93,3 +93,32 @@ export const putSituation = async (req: Request, res: Response) => {
     return;
   }
 };
+
+export const deleteSituation = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+
+    const situationRespository = AppDataSource.getRepository(Situation);
+    const situation = await situationRespository.findOneBy({
+      id: parseInt(id),
+    });
+
+    if (!situation) {
+      res.status(404).json({
+        message: "Situação não encontrada!",
+      });
+      return;
+    }
+    await situationRespository.remove(situation);
+
+    res.status(200).json({
+      message: "Situação apagada  com sucesso!",
+    });
+    return;
+  } catch (error) {
+    res.status(500).json({
+      message: `Erro ao apagar Situação: ${error}`,
+    });
+    return;
+  }
+};

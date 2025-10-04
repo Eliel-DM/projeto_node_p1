@@ -8,5 +8,6 @@ router.get("/", authController.getAuth);
 router.get("/situations", situationController.getSituation);
 router.get("/situations/:id", situationController.getSituationById);
 router.post("/situations", situationController.postSituation);
+router.put("/situations/:id", situationController.putSituation);
 
 export default router;

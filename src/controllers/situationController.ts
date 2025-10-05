@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { AppDataSource } from "../data-source";
 import { Situation } from "../entity/situations";
+import { PaginationService } from "../services/paginationServices";
 
 export const getSituation = async (req: Request, res: Response) => {
   try {
@@ -9,38 +10,16 @@ export const getSituation = async (req: Request, res: Response) => {
     //Paginação
 
     const page = Number(req.query.page) || 1;
-    const limit = 1;
-    //Contar o total de registros no banco de dados.
-    const totalSituations = await situationRespository.count();
-    //verificar se existem registros
-    if (totalSituations === 0) {
-      res.status(400).json({
-        message: "Nenhua situação encontrada!",
-      });
-      return;
-    }
-    //Calcular a última página
-    const lastPage = Math.ceil(totalSituations / limit);
-    if (page > lastPage) {
-      res.status(400).json({
-        message: `Página inválida. O total de páginas é: ${lastPage}`,
-      });
-      return;
-    }
+    const limit = Number(req.query.limit) || 10;
 
-    const offset = (page - 1) * limit;
+    const result = await PaginationService.paginate(
+      situationRespository,
+      page,
+      limit,
+      { id: "DESC" }
+    );
 
-    const situations = await situationRespository.find({
-      take: limit,
-      skip: offset,
-      order: { id: "DESC" },
-    });
-    res.status(200).json({
-      currentPage: page,
-      lastPage,
-      totalSituations,
-      situations,
-    });
+    res.status(200).json(result);
     return;
   } catch (error) {
     res.status(500).json({

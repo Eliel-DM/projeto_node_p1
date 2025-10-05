@@ -1,3 +1,4 @@
+// src/entity/products.ts
 import {
   Entity,
   Column,
@@ -7,6 +8,7 @@ import {
 } from "typeorm";
 import { ProductSituation } from "./productsSituation";
 import { ProductCategory } from "./productsCategories";
+
 @Entity("products")
 export class Product {
   @PrimaryGeneratedColumn()
@@ -15,17 +17,15 @@ export class Product {
   @Column()
   name!: string;
 
-  @ManyToOne(
-    () => ProductSituation,
-    (productSituation: { products: any }) => productSituation.products
-  )
+  @ManyToOne(() => ProductSituation, (situation) => situation.products, {
+    nullable: false,
+  })
   @JoinColumn({ name: "productSituationId" })
   productSituation!: ProductSituation;
 
-  @ManyToOne(
-    () => ProductCategory,
-    (productCategory: { products: any }) => productCategory.products
-  )
+  @ManyToOne(() => ProductCategory, (category) => category.products, {
+    nullable: false,
+  })
   @JoinColumn({ name: "productCategoryId" })
   productCategory!: ProductCategory;
 

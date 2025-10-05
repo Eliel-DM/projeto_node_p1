@@ -1,73 +1,89 @@
-// src/scripts/seed-products.ts
-import { AppDataSource } from "../data-source";
-import { ProductSituation } from "..//entity/productsSituation";
+// src/seeds/createProductsSeeds.ts
+import { DataSource } from "typeorm";
+import { ProductSituation } from "../entity/productsSituation";
 import { ProductCategory } from "../entity/productsCategories";
 import { Product } from "../entity/products";
 
-async function seedProducts() {
-  try {
-    await AppDataSource.initialize();
+export default class CreateProductsSeeds {
+  public async run(datasource: DataSource): Promise<void> {
     console.log("📦 Iniciando seed de produtos...");
 
     // 1. Seed para Situações de Produto
-    const situationRepository = AppDataSource.getRepository(ProductSituation);
-    const situations = [
-      { name: "Disponível" },
-      { name: "Indisponível" },
-      { name: "Em Falta" },
-      { name: "Descontinuado" },
-    ];
-
-    const savedSituations = await situationRepository.save(situations);
-    console.log("✅ Situações de produto criadas:", savedSituations);
+    const situationRepository = datasource.getRepository(ProductSituation);
+    let savedSituations = await situationRepository.find();
+    if (savedSituations.length === 0) {
+      const situations = [
+        { name: "Disponível" },
+        { name: "Indisponível" },
+        { name: "Em Falta" },
+        { name: "Descontinuado" },
+      ];
+      savedSituations = await situationRepository.save(situations);
+      console.log("✅ Situações de produto criadas!");
+    } else {
+      console.log(
+        "Situações de produto já existentes. Nenhuma alteração feita."
+      );
+    }
 
     // 2. Seed para Categorias de Produto
-    const categoryRepository = AppDataSource.getRepository(ProductCategory);
-    const categories = [
-      { name: "Eletrônicos" },
-      { name: "Informática" },
-      { name: "Smartphones" },
-      { name: "Acessórios" },
-      { name: "Games" },
-    ];
-
-    const savedCategories = await categoryRepository.save(categories);
-    console.log("✅ Categorias de produto criadas:", savedCategories);
+    const categoryRepository = datasource.getRepository(ProductCategory);
+    let savedCategories = await categoryRepository.find();
+    if (savedCategories.length === 0) {
+      const categories = [
+        { name: "Eletrônicos" },
+        { name: "Informática" },
+        { name: "Smartphones" },
+        { name: "Acessórios" },
+        { name: "Games" },
+      ];
+      savedCategories = await categoryRepository.save(categories);
+      console.log("✅ Categorias de produto criadas!");
+    } else {
+      console.log(
+        "Categorias de produto já existentes. Nenhuma alteração feita."
+      );
+    }
 
     // 3. Seed para Produtos
-    const productRepository = AppDataSource.getRepository(Product);
-    const products = [
-      {
-        name: "iPhone 15 Pro",
-        productCategoryId: savedCategories[2].id, // Smartphones
-        productSituationId: savedSituations[0].id, // Disponível
-      },
-      {
-        name: "Notebook Dell Inspiron",
-        productCategoryId: savedCategories[1].id, // Informática
-        productSituationId: savedSituations[0].id, // Disponível
-      },
-      {
-        name: "Mouse Gamer RGB",
-        productCategoryId: savedCategories[3].id, // Acessórios
-        productSituationId: savedSituations[1].id, // Indisponível
-      },
-      {
-        name: "PlayStation 5",
-        productCategoryId: savedCategories[4].id, // Games
-        productSituationId: savedSituations[2].id, // Em Falta
-      },
-    ];
+    const productRepository = datasource.getRepository(Product);
+    const existingProducts = await productRepository.count();
+    if (existingProducts === 0) {
+      // Funções auxiliares para buscar objetos
+      const getCategory = (name: string) =>
+        savedCategories.find((c) => c.name === name)!;
+      const getSituation = (name: string) =>
+        savedSituations.find((s) => s.name === name)!;
 
-    const savedProducts = await productRepository.save(products);
-    console.log(" Produtos criados:", savedProducts);
+      const productsData: Partial<Product>[] = [
+        {
+          name: "iPhone 15 Pro",
+          productCategory: getCategory("Smartphones"),
+          productSituation: getSituation("Disponível"),
+        },
+        {
+          name: "Notebook Dell Inspiron",
+          productCategory: getCategory("Informática"),
+          productSituation: getSituation("Disponível"),
+        },
+        {
+          name: "Mouse Gamer RGB",
+          productCategory: getCategory("Acessórios"),
+          productSituation: getSituation("Indisponível"),
+        },
+        {
+          name: "PlayStation 5",
+          productCategory: getCategory("Games"),
+          productSituation: getSituation("Em Falta"),
+        },
+      ];
 
-    console.log(" Seed concluído com sucesso!");
-  } catch (error) {
-    console.error(" Erro no seed:", error);
-  } finally {
-    await AppDataSource.destroy();
+      await productRepository.save(productsData);
+      console.log("✅ Produtos criados!");
+    } else {
+      console.log("Produtos já existentes. Nenhuma alteração feita.");
+    }
+
+    console.log("Seed de produtos concluída com sucesso!");
   }
 }
-
-seedProducts();

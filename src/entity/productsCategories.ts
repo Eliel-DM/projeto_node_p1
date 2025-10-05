@@ -1,3 +1,4 @@
+// src/entity/productsCategories.ts
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
 import { Product } from "./products";
 

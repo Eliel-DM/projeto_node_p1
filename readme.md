@@ -126,8 +126,8 @@ node dist/run-seeds.js
 
 ````bash
 # Modo desenvolvimento
-npm start-watch # Roda a api diratamente em TypeScript
-npm start-transpile # Faz o Build para Js e depois roda o arquivo server.js
+npm run start-watch # Roda a api diratamente em TypeScript
+npm run start-transpile # Faz o Build para Js e depois roda o arquivo server.js
 
 ## 📡 Endpoints da API
 

@@ -3,7 +3,7 @@ import { Situation } from "../entity/situations";
 
 export default class CreateSituationsSeeds {
   public async run(datasource: DataSource): Promise<void> {
-    console.log("Start Seeds Situation.");
+    console.log("⚠️ Start Seeds Situation. ");
 
     const situationRepository = datasource.getRepository(Situation);
     const existingCount = await situationRepository.count();
@@ -20,6 +20,6 @@ export default class CreateSituationsSeeds {
       { nameSituation: "Pendente" },
     ];
     await situationRepository.save(situations);
-    console.log("Seed concluída com sucess: Situações cadastradas!");
+    console.log("✅ Situações cadastradas! ");
   }
 }

@@ -1,4 +1,3 @@
-// src/controllers/productCategoryController.ts
 import { Request, Response } from "express";
 import { AppDataSource } from "../data-source";
 import { ProductCategory } from "../entity/productsCategories";

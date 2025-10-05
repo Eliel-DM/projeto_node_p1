@@ -92,7 +92,7 @@ export const putSituation = async (req: Request, res: Response) => {
       return;
     }
 
-    situationRespository.merge(situation, data); // Atualiza os dados.
+    situationRespository.merge(situation, data);
     const updateSituation = await situationRespository.save(situation);
     res.status(200).json({
       message: "Situação atualizada com sucesso!",

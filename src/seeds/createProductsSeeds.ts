@@ -1,4 +1,3 @@
-// src/seeds/createProductsSeeds.ts
 import { DataSource } from "typeorm";
 import { ProductSituation } from "../entity/productsSituation";
 import { ProductCategory } from "../entity/productsCategories";

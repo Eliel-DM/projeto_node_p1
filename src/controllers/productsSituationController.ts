@@ -1,4 +1,3 @@
-// src/controllers/productSituationController.ts
 import { Request, Response } from "express";
 import { AppDataSource } from "../data-source";
 import { ProductSituation } from "../entity/productsSituation";
